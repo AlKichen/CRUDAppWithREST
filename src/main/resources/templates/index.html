@@ -1,11 +1,67 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>UsersPage</title>
+    <style type="text/css">
+        .table {
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #dddddd;
+            border-collapse: collapse;
+            vertical-align: center;
+            text-align: center;
+        }
+
+        .table th {
+            font-weight: bold;
+            padding: 5px;
+            background: #efefef;
+            border: 1px solid #dddddd;
+        }
+
+        .table td {
+            border: 1px solid #dddddd;
+            padding: 5px;
+        }
+        form {
+            display: inline;
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
+<h1 th:text="${titleTable}"/>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Имя</th>
+        <th scope="col">Фамилия</th>
+        <th scope="col">Возраст</th>
+        <th scope="col">Email</th>
+        <th scope="col>">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
 
-
+        <td th:text="${user.getName()}">
+        <td th:text="${user.getSurname()}">
+        <td th:text="${user.getAge()}">
+        <td th:text="${user.getEmail()}">
+        <td>
+        <form th:action="@{/users/{id}/editUser(id=${user.getId()})}" target="_self">
+            <button>Обновить данные</button>
+        </form>
+        <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+            <button>Удалить пользователя</button>
+        </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<form action="/users/addUser" target="_self">
+    <button>Добавить нового пользователя</button>
+</form>
 </body>
 </html>
