@@ -38,6 +38,7 @@
         <th scope="col">Фамилия</th>
         <th scope="col">Возраст</th>
         <th scope="col">Email</th>
+        <th scope="col">Пароль</th>
         <th scope="col>">Действия</th>
     </tr>
     </thead>
@@ -48,7 +49,11 @@
         <td th:text="${user.getSurname()}">
         <td th:text="${user.getAge()}">
         <td th:text="${user.getEmail()}">
+        <td th:text="${user.getPassword()}">
         <td>
+        <form th:action="@{/users/{id}(id=${user.getId()})}" target="_self">
+            <button>Перейти на страницу пользователя</button>
+        </form>
         <form th:action="@{/users/{id}/editUser(id=${user.getId()})}" target="_self">
             <button>Обновить данные</button>
         </form>
