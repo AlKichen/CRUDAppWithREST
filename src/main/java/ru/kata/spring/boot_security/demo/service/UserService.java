@@ -11,9 +11,9 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import ru.kata.spring.boot_security.demo.model.User;
 
 
-
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -37,13 +37,15 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void createNewUser(User user) {
-        user.setRoles(new Role("USER"));
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role("ROLE_USER"));
+        user.setRoles(roles);
         userRepository.save(user);
     }
 
     @Transactional
     public User getUser(Long id) {
-        return userRepository.getById(id);
+        return userRepository.findById(id).get();  // было: userRepository.getById(id);
     }
 
 
@@ -55,7 +57,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void deleteUser(Long id) {
-        userRepository.delete(userRepository.getById(id));
+        userRepository.delete(userRepository.findById(id).get());
     }
 
 
@@ -71,7 +73,8 @@ public class UserService implements UserDetailsService {
         if (user == null){
             throw new UsernameNotFoundException("Polzovatel' ne naid'en");
         }
-        return user;
+        return  new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(), user.getAuthorities());
     }
 }
 

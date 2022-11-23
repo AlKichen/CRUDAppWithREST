@@ -2,7 +2,7 @@ package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import org.springframework.data.annotation.Transient;
+
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,8 +12,8 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Long id;
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "name", nullable = false, length = 45)
     private String name;
@@ -30,7 +30,7 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
-    public Role(Long id, String name) {
+    public Role(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -43,11 +43,11 @@ public class Role implements GrantedAuthority {
         this.users = users;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -61,6 +61,13 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return getName();
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
