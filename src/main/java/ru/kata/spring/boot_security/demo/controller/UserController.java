@@ -28,49 +28,4 @@ public class UserController {
         model.addAttribute("titleTable", "Страница пользователя: ");
         return "user";
     }
-
-
-
-    /*@GetMapping
-    public String showAllUsers(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("titleTable", "Список всех пользователей:");
-        return "index";
-    }
-
-    @GetMapping("/{id}")
-    public String showUser(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("titleTable", "Страница пользователя: ");
-        return "user";
-    }
-
-    @GetMapping("/addUser")
-    public String addNewUser(@ModelAttribute("user") User user) {
-        return "newUser";
-    }
-
-    @PostMapping
-    public String addCreateNewUser(@ModelAttribute("user") User user) {
-        userService.createNewUser(user);
-        return "redirect:/users";
-    }
-
-    @GetMapping("/{id}/editUser")
-    public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUser(id));
-        return "edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") User user) {
-        userService.updateUser(user);
-        return "redirect:/users";
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
-        return "redirect:/users";
-    }*/
 }

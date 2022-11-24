@@ -20,7 +20,7 @@
     <br>
     <br>
     <label for="email">Email: </label>
-    <input type="email" th:field="*{surname}" id="email" required>
+    <input type="email" th:field="*{username}" id="email" required>
     <br>
     <br><label for="password">Пароль: </label>
     <input type="password" th:field="*{password}" id="password" required>
@@ -30,10 +30,11 @@
     <label>Права доступа:
         <input type="checkbox" name="roles"
                th:each="role : ${rolesAdd}"
-               th:text="${role.name}"
-               th:value="${role.id}"/>
+               th:value="${role.id}"
+               th:text="${role.name}"/>
     </label>
-
+    <br>
+    <br>
     <input type="submit" value="Добавить">
 </form>
 

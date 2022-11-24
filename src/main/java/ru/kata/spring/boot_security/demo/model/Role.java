@@ -4,8 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -23,7 +21,7 @@ public class Role implements GrantedAuthority {
 
     @Transient
     @ManyToMany(mappedBy = "roles")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.PERSIST})
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.PERSIST})
     private Set<User> users;
 
     public Role() {

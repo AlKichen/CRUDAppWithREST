@@ -24,6 +24,7 @@ public class RoleService {
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
+
     public List<Role> getUniqAllRoles() {
         List<Role> roleList = roleRepository.findAll();
         Set<Role> roleSet = new HashSet<>(roleList);

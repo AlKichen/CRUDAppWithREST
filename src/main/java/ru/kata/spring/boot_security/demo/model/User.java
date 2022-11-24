@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import javax.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,8 +32,9 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER) //могу сделать с LAZY - но тогда не получится отображать роли на /user
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.PERSIST})
+    //могу сделать с FetchType.LAZY - но тогда не получится отображать роли на страницах html
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
@@ -53,10 +53,6 @@ public class User implements UserDetails {
         this.password = password;
         this.roles = roles;
     }
-
-    /*public void addRole(Role role) {
-        this.roles.add(role);
-    }*/
 
     public Long getId() {
         return id;
@@ -103,43 +99,12 @@ public class User implements UserDetails {
         return roles;
     }
 
-    /*public String getRolesStrings() {
-        StringBuilder sb = new StringBuilder();
-        for (Role role : roles) {
-            sb.append(role.getRole()).append(" ");
-        }
-        return sb.toString();
-    }*/
-
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-    /*public void setRoles(String role) {
-        this.roles.add(new Role(role));
-    }*/
-
-    /*public void setRoles(Role role) {
-        roles.add(role);
-    }*/
-
-    public void setRoles(String[] roles) {
-        Set<Role> roleSet = new HashSet<>();
-        for (String role : roles) {
-            if (role != null) {
-                if (role.equals("ROLE_ADMIN")) {
-                    roleSet.add(new Role(1L, role));
-                }
-                if (role.equals("ROLE_USER")) {
-                    roleSet.add(new Role(2L, role));
-                }
-            }
-        }
-        this.roles = roleSet;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //return roles;
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
 
