@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"-->
 
 
 <head>
@@ -42,6 +43,7 @@
         <th scope="col">Возраст</th>
         <th scope="col">Email(Логин)</th>
         <th scope="col">Пароль</th>
+        <th scope="col">Права доступа</th>
     </tr>
     </thead>
     <tbody>
@@ -51,12 +53,21 @@
         <td th:text="${user.getAge()}"></td>
         <td th:text="${user.getUsername()}"></td>
         <td th:text="${user.getPassword()}"></td>
+        <td th:text="${user.getRoles()}"></td>
     </tr>
     </tbody>
 </table>
 <br>
-<form action="/users" target="_self">
-    <button>Вернуться к списку пользователей</button>
+<div sec:authorize="hasAuthority('ROLE_ADMIN')">
+    <form action="/users" target="_self">
+        <button>Вернуться к списку пользователей</button>
+    </form>
+    <br>
+    <br>
+</div>
+<form th:action="@{/logout}" th:method="POST" target="_self">
+    <button>Выйти</button>
 </form>
+
 </body>
 </html>
