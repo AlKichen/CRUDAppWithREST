@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>Добавление нового пользователя</h2>
-<form th:method="POST" th:action="@{/users}" th:object="${user}">
+<form th:method="POST" th:action="@{/admin}" th:object="${user}">
     <label for="name">Имя: </label>
     <input type="text" th:field="*{name}" id="name" required>
     <br>
@@ -20,12 +20,20 @@
     <br>
     <br>
     <label for="email">Email: </label>
-    <input type="email" th:field="*{email}" id="email" required>
+    <input type="email" th:field="*{surname}" id="email" required>
     <br>
     <br><label for="password">Пароль: </label>
     <input type="password" th:field="*{password}" id="password" required>
     <br>
     <br>
+
+    <label>Права доступа:
+        <input type="checkbox" name="roles"
+               th:each="role : ${rolesAdd}"
+               th:text="${role.name}"
+               th:value="${role.id}"/>
+    </label>
+
     <input type="submit" value="Добавить">
 </form>
 

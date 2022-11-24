@@ -51,6 +51,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void updateUser(User updatedUser) {
+        System.out.println("Роли которые пришли в модель:" + updatedUser.getRoles());
         userRepository.save(updatedUser);
     }
 
