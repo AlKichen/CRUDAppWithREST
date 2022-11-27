@@ -33,7 +33,7 @@ public class AdminController {
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("titleTable", "Список всех пользователей:");
-        return "admin";
+        return "adminOld";
     }
 
     @GetMapping("/{id}")

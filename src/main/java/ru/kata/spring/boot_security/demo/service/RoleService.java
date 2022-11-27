@@ -26,16 +26,6 @@ public class RoleService {
     }
 
     public List<Role> getUniqAllRoles() {
-        List<Role> roleList = roleRepository.findAll();
-        Set<Role> roleSet = new HashSet<>(roleList);
-        roleList.clear();
-        roleList.addAll(roleSet);
-        return roleList;
+        return roleRepository.findAll();
     }
-
-    @Transactional
-    public void addRole(Role role) {
-        roleRepository.save(role);
-    }
-
 }

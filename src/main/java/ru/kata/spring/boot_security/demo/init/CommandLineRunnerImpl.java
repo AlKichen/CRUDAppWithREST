@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.HashSet;
@@ -13,20 +14,27 @@ import java.util.Set;
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public CommandLineRunnerImpl(UserRepository userRepository) {
+    public CommandLineRunnerImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
+        Role roleUser = new Role(2L, "ROLE_USER");
+        Role roleAdmin = new Role(1L, "ROLE_ADMIN");
+        roleRepository.save(roleAdmin);
+        roleRepository.save(roleUser);
+
         Set<Role> adminRoles = new HashSet<>();
-        adminRoles.add(new Role("ROLE_ADMIN"));
-        adminRoles.add(new Role("ROLE_USER"));
+        adminRoles.add(roleRepository.findById(1L).orElse(null));
+        adminRoles.add(roleRepository.findById(2L).orElse(null));
         Set<Role> userRoles = new HashSet<>();
-        userRoles.add(new Role("ROLE_USER"));
+        userRoles.add(roleRepository.findById(2L).orElse(null));
 
         User userAdmin = new User();
         userAdmin.setName("ИванAdmin");
