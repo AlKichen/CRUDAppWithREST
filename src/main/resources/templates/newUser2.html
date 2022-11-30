@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{../css/bootstrap.min.css}" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Admin panel</title>
 </head>
@@ -10,24 +10,21 @@
 <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
     <div class="container-fluid d-flex align-items-center">
         <h1 class="d-flex align-items-center fs-4 text-white mb-0"
-            th:text="${user.getUsername()} +' with roles: '+ ${user.getRoles()}">
-
-<!--            "admin@mail.ru with roles: ADMIN USER"-->
-            <!--доработать в thymeleaf-->
+            th:text="${admin.getUsername()} +' with roles: '+ ${admin.getRoles()}">
         </h1>
-        <a th:href="@{/logout}" class="ms-auto link-secondary text-decoration-none" >Logout</a>
-        <!--проверить ссыль-->
+        <a th:href="@{/logout}" class="ms-auto link-secondary text-decoration-none">Logout</a>
     </div>
 </header>
 <div class="container-fluid h-100">
     <div class="row h-100">
         <div class="col-md-2 g-0 py-3">
             <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#" id="admin-nav-link" data-bs-toggle="tab"
-                       data-bs-target="#admin-panel" type="button" role="tab" aria-controls="admin-panel"
-                       aria-selected="true">Admin</a>
-                </li>
+                <div sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/admin}" type="button" role="tab"
+                           aria-selected="true">Admin</a>
+                    </li>
+                </div>
                 <li class="nav-item">
                     <a class="nav-link" href="#" id="user-nav-link" data-bs-toggle="tab" data-bs-target="#user-panel"
                        type="button" role="tab" aria-controls="user-panel" aria-selected="false">User</a>
@@ -35,23 +32,25 @@
             </ul>
         </div>
         <div class="col-md-10 bg-light gx-5 py-3 tab-content">
-            <div class="tab-pane fade show active" id="admin-panel" role="tabpanel" aria-labelledby="admin-nav-link"
-                 tabindex="0">
+            <div class="tab-pane fade" id="admin-panel" role="tabpanel" aria-labelledby="admin-nav-link"
+                 tabindex="0" sec:authorize="hasAuthority('ROLE_ADMIN')">
+
                 <h2>Admin panel</h2>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" id="users-table-tab" data-bs-toggle="tab"
-                           data-bs-target="#users-table-pane" type="button" role="tab" aria-controls="users-table-pane"
+                        <a class="nav-link" th:href="@{/admin}" type="button" role="tab"
                            aria-selected="true">Users Table</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id="new-users-tab" data-bs-toggle="tab"
+                        <a class="nav-link active" id="new-users-tab" data-bs-toggle="tab"
                            data-bs-target="#new-users-pane" type="button" role="tab" aria-controls="new-users-pane"
                            aria-selected="false">New User</a>
+                        <!--<a class="nav-link" type="button" role="tab" th:href="@{/admin/addUser}">New User</a>-->
                     </li>
                 </ul>
+
                 <div class="tab-content" role="tabpanel">
-                    <div class="tab-pane fade show active" id="users-table-pane" role="tabpanel"
+<!--                    <div class="tab-pane fade show active" id="users-table-pane" role="tabpanel"
                          aria-labelledby="users-table-tab" tabindex="0">
                         <div class="card rounded-0">
                             <h5 class="card-header">All users</h5>
@@ -69,31 +68,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>
-                                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                                data-bs-target="#modalEdit">Edit
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#modalDelete">Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>1</td>
-                                    <td>Mark</td>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.getId()}"></td>
+                                    <td th:text="${user.getName()}"></td>
+                                    <td th:text="${user.getSurname()}"></td>
+                                    <td th:text="${user.getAge()}"></td>
+                                    <td th:text="${user.getUsername()}"></td>
+                                    <td th:text="${user.getRoles()}"></td>
                                     <td>
                                         <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                                 data-bs-target="#modalEdit">Edit
@@ -108,14 +89,16 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="new-users-pane" role="tabpanel" aria-labelledby="new-users-tab"
+                    </div>-->
+                    <div class="tab-pane fade show active" id="new-users-pane" role="tabpanel" aria-labelledby="new-users-tab"
                          tabindex="0">
                         <div class="card">
                             <h5 class="card-header">Add new user</h5>
                             <div class="form-justify-content-center mx-auto col-4">
                                 <div class="card-body text-center">
-                                    <form id="formNewUser" name="formNewUser">
+                                    <form id="formNewUser" name="formNewUser" th:action="@{/admin}"
+                                          th:object="${userNew}"
+                                          method="POST">
                                         <p>
                                             <label class="container-fluid" for="newUserFirstName">
                                                 <strong>First name</strong>
@@ -189,12 +172,12 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td>1</td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>1</td>
-                                        <td>Mark</td>
+                                        <td th:text="${admin.getId()}"></td>
+                                        <td th:text="${admin.getName()}"></td>
+                                        <td th:text="${admin.getSurname()}"></td>
+                                        <td th:text="${admin.getAge()}"></td>
+                                        <td th:text="${admin.getUsername()}"></td>
+                                        <td th:text="${admin.getRoles()}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -206,7 +189,7 @@
         </div>
     </div>
 </div>
-
+<!--
 <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -346,8 +329,8 @@
             </form>
         </div>
     </div>
-</div>
+</div>-->
 
-<script  th:src="@{js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{../js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

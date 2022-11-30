@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <link th:href="@{../css/bootstrap.min.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+</head>
+<body style="height: 100vh">
+<header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
+    <div class="container-fluid d-flex align-items-center">
+        <h1 class="d-flex align-items-center fs-4 text-white mb-0"
+            th:text="${admin.getUsername()} +' with roles: '+ ${admin.getRoles()}">
+        </h1>
+        <a th:href="@{/logout}" class="ms-auto link-secondary text-decoration-none">Logout</a>
+    </div>
+</header>
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-md-2 g-0 py-3">
+            <ul class="nav nav-pills flex-column">
+                <div sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/admin}" type="button" role="tab"
+                           aria-selected="true">Admin</a>
+                    </li>
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="user-nav-link" data-bs-toggle="tab" data-bs-target="#user-panel"
+                       type="button" role="tab" aria-controls="user-panel" aria-selected="false">User</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-10 bg-light gx-5 py-3 tab-content">
+            <div class="tab-pane fade show active" id="admin-panel" role="tabpanel" aria-labelledby="admin-nav-link"
+                 tabindex="0" sec:authorize="hasAuthority('ROLE_ADMIN')">
+
+                <h2>Admin panel</h2>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin}" type="button" role="tab"
+                           aria-selected="true">Users Table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="new-users-tab" data-bs-toggle="tab"
+                           data-bs-target="#new-users-pane" type="button" role="tab" aria-controls="new-users-pane"
+                           aria-selected="false">New User</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" role="tabpanel">
+                    <div class="tab-pane fade show active" id="new-users-pane" role="tabpanel"
+                         aria-labelledby="new-users-tab"
+                         tabindex="0">
+                        <div class="card">
+                            <h5 class="card-header">Add new user</h5>
+                            <div class="form-justify-content-center mx-auto col-4">
+                                <div class="card-body text-center">
+                                    <form id="formNewUser" name="formNewUser" th:align="center"
+                                          th:action="@{/new}"
+                                          th:object="${newUser}"
+                                          method="POST">
+                                        <p>
+                                            <label class="container-fluid" for="newUserFirstName">
+                                                <strong>First name</strong>
+                                                <input class="form-control" type="text" name="firstName"
+                                                       id="newUserFirstName" placeholder="First name"
+                                                       th:field="${newUser.name}" required>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="container-fluid" for="newUserLastName">
+                                                <strong>Last name</strong>
+                                                <input class="form-control" type="text" name="lastName"
+                                                       id="newUserLastName" placeholder="Last name"
+                                                       th:field="${newUser.surname}" required>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="container-fluid" for="newUserAge">
+                                                <strong>Age</strong>
+                                                <input class="form-control" type="text" name="Age"
+                                                       id="newUserAge" placeholder="Age"
+                                                       th:field="${newUser.age}" required>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="container-fluid" for="newUserEmail">
+                                                <strong>Email</strong>
+                                                <input class="form-control" type="email" name="Email"
+                                                       id="newUserEmail" placeholder="Email"
+                                                       th:field="${newUser.username}" required>
+                                            </label>
+                                        </p>
+                                        <p>
+                                            <label class="container-fluid" for="newUserPassword">
+                                                <strong>Password</strong>
+                                                <input class="form-control" type="text" name="password"
+                                                       id="newUserPassword" placeholder="Password"
+                                                       th:field="${newUser.password}" required>
+                                            </label>
+                                        </p>
+                                        <label class="container-fluid" for="newUserRoles">
+                                            <strong>Role</strong>
+                                            <select id="newUserRoles" class="form-select" name="roles"
+                                                    multiple size="2">
+                                                <option th:each="role: ${rolesAdd}" th:value="${role.id}">
+                                                    <th:block th:text="${role.name}">
+                                                    </th:block>
+                                                </option>
+                                            </select>
+                                        </label>
+                                        <button type="submit" id="newUserButton" class="btn btn-success">Add new user
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fane" id="user-panel" role="tabpanel"
+                 aria-labelledby="user-nav-link" tabindex="0">
+                <h2>User information-page</h2>
+                <div class="tab-content" role="tabpanel" aria-labelledby="admin-nav-link">
+                    <div class="tab-pane fade show active" role="tabpanel" tabindex="0">
+                        <div class="card">
+                            <h5 class="card-header">About user</h5>
+                            <div class="card-body text-center">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Age</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Role</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td th:text="${admin.getId()}"></td>
+                                        <td th:text="${admin.getName()}"></td>
+                                        <td th:text="${admin.getSurname()}"></td>
+                                        <td th:text="${admin.getAge()}"></td>
+                                        <td th:text="${admin.getUsername()}"></td>
+                                        <td th:text="${admin.getRoles()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{../js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
