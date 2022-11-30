@@ -25,7 +25,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*Role roleUser = new Role(2L, "ROLE_USER");
+        Role roleUser = new Role(2L, "ROLE_USER");
         Role roleAdmin = new Role(1L, "ROLE_ADMIN");
         roleRepository.save(roleAdmin);
         roleRepository.save(roleUser);
@@ -53,6 +53,6 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         userUser.setUsername("user@ya.ru");
         userUser.setPassword("$2y$10$8Svqjb65XcTIaXNCOkzFdOdT6qO4DsFT63ra5wpDdur8s9GL67WHK"); //user
         userUser.setRoles(userRoles);
-        userRepository.save(userUser);*/
+        userRepository.save(userUser);
     }
 }
