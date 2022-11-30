@@ -15,9 +15,11 @@
         <a th:href="@{/logout}" class="ms-auto link-secondary text-decoration-none" hreflang="ar">Logout</a>
     </div>
 </header>
+<!--общий контейнер для всего-->
 <div class="container-fluid h-100">
-    <div class="row h-100">             <!--общий контейнер для всего-->
-        <div class="col-md-2 g-0 py-3">         <!--контейнер для боковой панели Юзер Админ-->
+    <div class="row h-100">
+        <!--контейнер для боковой панели Юзер Админ-->
+        <div class="col-md-2 g-0 py-3">
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
                     <a class="nav-link active" href="#" id="admin-nav-link" data-bs-toggle="tab"
@@ -32,11 +34,13 @@
         </div>
         <!--контейнер для содержимого кнопок боковой панели-->
         <div class="col-md-10 bg-light gx-5 py-3 tab-content">
+            <!--контейнер для для правой части экрана-->
             <div class="tab-pane fade show active" id="admin-panel" role="tabpanel"
                  aria-labelledby="admin-nav-link"
-                 tabindex="0">          <!--контейнер для для правой части экрана-->
+                 tabindex="0">
                 <h2>Admin panel</h2>
-                <ul class="nav nav-tabs">      <!-- список вкладок таблиц-->
+                <!-- список вкладок таблиц-->
+                <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" href="#" id="users-table-tab" data-bs-toggle="tab"
                            data-bs-target="#users-table-pane" type="button" role="tab" aria-controls="users-table-pane"
@@ -48,9 +52,11 @@
                            aria-selected="false">New User</a>
                     </li>
                 </ul>
-                <div class="tab-content" role="tabpanel">   <!--контейнер для содержимого вкладок таблиц-->
+                <!--контейнер для содержимого вкладок таблиц-->
+                <div class="tab-content" role="tabpanel">
+                    <!--содержимое вкладки Users Table-->
                     <div class="tab-pane fade show active" id="users-table-pane" role="tabpanel"
-                         aria-labelledby="users-table-tab" tabindex="0">   <!--содержимое вкладки Users Table-->
+                         aria-labelledby="users-table-tab" tabindex="0">
                         <div class="card rounded-0">
                             <h5 class="card-header">All users</h5>
                             <table class="table table-striped">
@@ -252,7 +258,7 @@
                                                                                id="deleteUserEmail" disabled
                                                                                th:type="email"
                                                                                th:name="username"
-                                                                               th:value="${user.username}" >
+                                                                               th:value="${user.username}">
                                                                     </label>
                                                                 </p>
                                                                 <label class="container-fluid col-6"
@@ -286,8 +292,9 @@
                             </table>
                         </div>
                     </div>
+                    <!--содержимое вкладки New User-->
                     <div class="tab-pane fade" id="new-users-pane" role="tabpanel" aria-labelledby="new-users-tab"
-                         tabindex="0">              <!--содержимое вкладки New User-->
+                         tabindex="0">
                         <div class="card rounded-0">
                             <h5 class="card-header">Add new user</h5>
                             <div class="form-justify-content-center mx-auto col-4">
@@ -355,9 +362,9 @@
                     </div>
                 </div>
             </div>
+            <!--контейнер для содержимого на кнопке User на боковой панели-->
             <div class="tab-pane fane" id="user-panel" role="tabpanel"
                  aria-labelledby="user-nav-link" tabindex="0">
-                <!--контейнер для содержимого на кнопке User на боковой панели-->
                 <h2>User</h2>
                 <div class="tab-content" role="tabpanel" aria-labelledby="admin-nav-link">
                     <div class="tab-pane fade show active" role="tabpanel" tabindex="0">
@@ -392,157 +399,6 @@
         </div>
     </div>
 </div>
-
-<!--<div class="modal fade" th:id="${'modalEdit'+user.id}" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
-    &lt;!&ndash;модальное окно редактировать юзера&ndash;&gt;
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form id="formEdit" th:method="PUT" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit user</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="form-group required">
-                        <div class="controls">
-                            <p>
-                                <label for="idEditUser">
-                                    <strong>ID</strong>
-                                    <input class="form-control" type="number" name="id" id="idEditUser"
-                                           th:field="${user.id}" disabled>
-                                </label>
-                            </p>
-                            <p>
-                                <label for="editUserFirstName">
-                                    <strong>First name</strong>
-                                    <input class="form-control" type="text" name="firstName"
-                                           id="editUserFirstName" placeholder="First name"
-                                           th:field="${user.name}" required>
-                                </label>
-                            </p>
-                            <p>
-                                <label for="editUserLastName">
-                                    <strong>Last name</strong>
-                                    <input class="form-control" type="text" name="lastName"
-                                           id="editUserLastName" placeholder="Last name"
-                                           th:field="${user.surname}" required>
-                                </label>
-                            </p>
-                            <p>
-                                <label for="editUserAge">
-                                    <strong>Age</strong>
-                                    <input class="form-control" type="number" name="Age"
-                                           id="editUserAge" placeholder="Age"
-                                           th:field="${user.age}" required>
-                                </label>
-                            </p>
-                            <p>
-                                <label for="editUserEmail">
-                                    <strong>Email</strong>
-                                    <input class="form-control" type="email" name="Email"
-                                           id="editUserEmail" placeholder="Email"
-                                           th:field="${user.username}" required>
-                                </label>
-                            </p>
-                            <p>
-                                <label for="editUserPassword">
-                                    <strong>Password</strong>
-                                    <input class="form-control" type="password" name="password"
-                                           id="editUserPassword" placeholder="Password"
-                                           th:field="${user.password}" required>
-                                </label>
-                            </p>
-                            <label class="container-fluid col-6" for="editUserRoles">
-                                <strong>Role</strong>
-                                <select id="editUserRoles" class="form-select" name="roles"
-                                        multiple size="2">
-                                    <option th:each="role: ${rolesAdd}" th:value="${role.id}">
-                                        <th:block th:text="${role.name}">
-                                        </th:block>
-                                    </option>
-                                </select>
-                            </label>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="editFormCloseButton" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close
-                            </button>
-                            <button type="submit" class="btn btn-primary">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>-->
-
-<!--модальное окно удалить юзера
-<div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form id="formDelete">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete user</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="form-group required">
-                        <div class="controls">
-                            <p>
-                                <label for="idDeleteUser">
-                                    <strong>ID</strong>
-                                    <input class="form-control" type="number" name="id" id="idDeleteUser" disabled>
-                                </label>
-                            </p>
-                            <p>
-                                <label for="deleteUserFirstName">
-                                    <strong>First name</strong>
-                                    <input class="form-control" type="text" name="firstName"
-                                           id="deleteUserFirstName" disabled>
-                                </label>
-                            </p>
-                            <p>
-                                <label for="deleteUserLastName">
-                                    <strong>Last name</strong>
-                                    <input class="form-control" type="text" name="lastName"
-                                           id="deleteUserLastName" disabled>
-                                </label>
-                            </p>
-                            <p>
-                                <label for="deleteUserAge">
-                                    <strong>Age</strong>
-                                    <input class="form-control" type="number" name="Age"
-                                           id="deleteUserAge" disabled>
-                                </label>
-                            </p>
-                            <p>
-                                <label for="deleteUserEmail">
-                                    <strong>Email</strong>
-                                    <input class="form-control" type="email" name="Email"
-                                           id="deleteUserEmail" disabled>
-                                </label>
-                            </p>
-                            <label class="container-fluid col-6" for="deleteUserRoles">
-                                <strong>Role</strong>
-                                <select id="deleteUserRoles" class="form-select" name="roles"
-                                        multiple size="2" disabled>
-                                    <option value="1">ADMIN</option>
-                                    <option value="2">USER</option>
-                                </select>
-                            </label>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="deleteFormCloseButton" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close
-                            </button>
-                            <button type="submit" class="btn btn-primary">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>-->
 <script th:src="@{js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
