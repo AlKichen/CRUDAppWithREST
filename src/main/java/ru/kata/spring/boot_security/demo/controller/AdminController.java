@@ -6,13 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
-import java.util.*;
+
 
 
 @Controller
@@ -36,25 +35,9 @@ public class AdminController {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("admin", userService.findUserByUsername(principal.getName()));
         model.addAttribute("newUser", new User());
-//        model.addAttribute("user", user);
         model.addAttribute("rolesAdd", roleService.getUniqAllRoles());
-        return "adminNew";
+        return "admin";
     }
-
-   /* @GetMapping("/{id}")
-    public String showUser(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("titleTable", "Страница пользователя: ");
-        return "user";
-    }*/
-
-    /*@GetMapping("/addUser")
-    public String addNewUser(Model model, @ModelAttribute("userNew") User user, Principal principal) {
-        model.addAttribute("admin", userService.findUserByUsername(principal.getName()));
-        List<Role> roles = roleService.getUniqAllRoles();
-        model.addAttribute("rolesAdd", roles);
-        return "newUser";
-    }*/
 
     @PostMapping
     public String addCreateNewUser(@ModelAttribute("user") User user) {
@@ -62,16 +45,8 @@ public class AdminController {
         userService.createNewUser(user);
         return "redirect:/admin";
     }
-/*
-    @GetMapping("/{id}/editUser")
-    public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUser(id));
-        List<Role> roles = roleService.getUniqAllRoles();
-        model.addAttribute("rolesAdd", roles);
-        return "edit";
-    }
-*/
-    @PutMapping("/{id}")
+
+    @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.updateUser(user);
