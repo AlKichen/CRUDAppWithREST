@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.exception_handlers.UserNotFoundException;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
@@ -13,6 +14,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -57,7 +59,8 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public User getUser(Long id) {
-        return userRepository.findById(id).get();  // было: userRepository.getById(id);
+        Optional<User> userOptional = userRepository.findById(id);
+        return userOptional.orElseThrow(UserNotFoundException::new);
     }
 
 
@@ -69,7 +72,8 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void deleteUser(Long id) {
-        userRepository.delete(userRepository.findById(id).get());
+        Optional<User> userOptional = userRepository.findById(id);
+        userRepository.delete(userOptional.orElseThrow(UserNotFoundException::new));
     }
 
 

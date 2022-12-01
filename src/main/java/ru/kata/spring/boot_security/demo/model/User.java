@@ -6,6 +6,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,16 +23,24 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
     @Column(name = "name", nullable = false)
+    @NotEmpty (message = "Name shouldn't be empty!")
+    @Size(min=2, max = 30, message = "Name should be between 2 and 30 characters!")
     private String name;
     @Column(name = "surname", nullable = false)
+    @NotEmpty (message = "Surname shouldn't be empty!")
+    @Size(min=2, max = 30, message = "Surname should be between 2 and 30 characters!")
     private String surname;
     @Column(name = "age", nullable = false)
+    @Min(value = 0, message = "Age should be grater then zero")
     private Byte age;
 
     @Column(name = "email", nullable = false, unique = true)
+    @Email
+    @NotEmpty (message = "Email/login shouldn't be empty!")
     private String username;
 
     @Column(name = "password", nullable = false)
+    @NotEmpty (message = "Password shouldn't be empty!")
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.MERGE)
