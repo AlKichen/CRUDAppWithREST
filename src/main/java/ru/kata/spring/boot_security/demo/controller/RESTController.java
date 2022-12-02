@@ -63,6 +63,10 @@ public class RESTController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @GetMapping("/users/authentication")
+    public ResponseEntity<User> showOneUser() {
+        return new ResponseEntity<>(userService.getAuthUser(), HttpStatus.OK);}
+
     private String getStringMessage(BindingResult bindingResult){
         StringBuilder sb = new StringBuilder();
         List<FieldError> listErrors = bindingResult.getFieldErrors();
